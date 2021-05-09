@@ -1,0 +1,245 @@
+{% extends "index.html" %}
+
+{% load staticfiles %}
+
+{% block 'navbar' %}
+<section id="header">
+    <nav class="navbar navbar-expand-lg fixed-top effect-3">
+        <a class="navbar-brand" href="/instructor/dashboard/">E-LEARN <i class="fab fa-leanpub"></i></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+            aria-="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:#fff; font-size:28px;"></i></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+                <li class="nav-item"><a class="nav-link" href="/instructor/dashboard/">Home</a></li>
+                <li class="nav-item dropdown" style="padding-left: 20px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-envelope-open-text"></i><span
+                            class="badge .rounded-pill bg-dark" style="border-radius: 50%; font-size: 10px;"></span>
+                        <span class="visually-hidden">unread messages</span></a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        {% if messages %}
+                        {% for m in messages %}
+                        <li><a class="dropdown-item" href="#">{{ m }}</a></li>
+                        {% endfor %}
+                        {% else %}
+                        <li><a class="dropdown-item" href="#">No Message</a></li>
+                        {% endif %}
+
+                    </ul>
+                </li>
+                <li class="nav-item dropdown" style="padding-left: 20px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user"></i></a>
+                    <ul class="dropdown-menu .drop_1" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/instructor/profile/">Account Setting</a></li>
+                        <!-- <li><a class="dropdown-item" href="#">Payout Method</a></li> -->
+                        <!-- <li><a class="dropdown-item" href="#">Performance</a></li> -->
+                    </ul>
+                </li>
+                <li class="nav-item" style=" padding-left: 20px;"><a class="nav-link" href="/logout/"><i
+                            class="fas fa-sign-out-alt"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+</section>
+{% endblock %}
+
+{% block 'homedata' %}
+
+<section id="center_course"></section>
+<section id="mycourse">
+    <div class="container">
+        <div class="instructor_course">
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center; color: white;">
+                    <h2>Courses</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Search"
+                                aria-describedby="button-addon2" id="csearch" name="csearch">
+                            <button class="btn btn-primary" type="submit" id="button-addon2" disabled><i
+                                    class="fas fa-search"></i></button>
+                        </div>
+                </div>
+                <div class="col-sm-2">
+                    <!-- <form method="POST">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected value="new">Newest</option>
+                            <option value="old">Oldest</option>
+                        </select>
+                    </form> -->
+                </div>
+                <div class="col-sm-7" style="text-align: end;">
+                    <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#add_c"
+                        style="width: 50%;"><i class="fas fa-plus"></i>&nbsp;New
+                        Course</button>
+                </div>
+            </div>
+
+
+            <div class="row card-deck">
+                {% for i in cou %}
+                {% if i.status == "A" %}
+                <button class="btn"><a href="{% url 'instructor:manage_course' id=i.id %}" id="disp">
+                        <div class="card" style="max-width: 100%; margin: 0%;" id="cardsearch">
+                            <div class="row no-gutters">
+                                <div class="col-md-4" style="margin: 0;">
+                                    <img src="{{ i.course_img.url }}" class="card-img" alt="..." height="170px"
+                                        width="100%">
+                                </div>
+                                <div class="col-md-8" style=" background-color: rgba(128, 128, 128, 0.1);">
+                                    <div class="card-body" style="text-align: left;">
+                                        <h5 class="card-title" style="color: green;">{{ i.title }}</h5>
+                                        <p class="card-text" style="color: grey; font-weight: 200;">{{ i.description }}
+                                        </p>
+                                        <p class="card-text" style="color: grey; font-weight: 100;">Level :{{ i.level }}
+                                        </p>
+                                        <p class="card-text" style="color: #dac01e; font-weight: 200;"> Price : {{ i.price }}
+                                        </p>
+                                        <p class="card-text" style="font-weight: 100; margin-bottom: 0;"><small
+                                                class="text-muted">{{i.dated}}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a></button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% if messages %}
+		{% for m in messages %}
+		<script type="text/javascript"> alert("{{ m }}")</script>
+		{% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block 'modall' %}
+<div class="modal fade" id="add_c" tabindex="-1" aria-labelledby="adc" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="adc">Select your course Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="select_cat">
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <input type="text" name="title" class="form-control" placeholder="title"
+                                            required>
+                                    </div>
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <input type="text" name="des" class="form-control" placeholder="Description"
+                                            required>
+                                    </div>
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <input type="file" name="c_img" class="form-control" accept="image/jpg, image/png, image/jpeg" required>
+                                    </div>
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <select class="form-select" name="level" required>
+                                            <option selected>Level</option>
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <select class="form-select" name="paidunpaid" id="paidunpaid" required>
+                                            <option value="False"selected>Unpaid</option>
+                                            <option value="True">Paid</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <input type="number" name="price" id="price" class="form-control" placeholder="Price">
+                                    </div>
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <select class="form-select" name="cat">
+                                            <option selected>Category</option>
+                                            {% for i in cat %}
+                                            <option value="{{ i.id }}">{{ i.category_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-row" style="margin-bottom: 10px;">
+                                        <select class="form-select" name="subcat">
+                                            <option selected></option>
+                                            {% for i in subc %}
+                                            <option value="{{ i.id }}">{{ i.subcategory_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="new_practice" type="submit">
+                    Get Started
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block 'acc' %}
+{% endblock %}
+
+{% block 'learning'%}
+{% endblock %}
+
+{% block 'about'%}
+{% endblock %}
+
+{% block 'contactus'%}
+{% endblock %}
+
+{% block 'usescript' %}
+<script>
+    $(document).ready(function () {
+
+        jQuery.expr[':'].contains = function (a, i, m) {
+            return jQuery(a).text().toUpperCase()
+                .indexOf(m[3].toUpperCase()) >= 0;
+        };
+        $('#csearch').keyup(function () {
+            $('.card').removeClass('d-none');
+            var filter = $(this).val(); // get the value of the input, which we filter on
+            $('.card-deck').find('.card .card-body h5:not(:contains("' + filter + '"))').parent().parent().parent().parent().addClass('d-none');
+        })
+
+        $("#price").hide()
+
+        $("#paidunpaid").change(function(){
+            if($("#paidunpaid option:selected").text() == "Paid"){
+                $("#price").show()
+                $("#price").attr('required', true)
+            }
+            else{
+                $("#price").hide()
+                $("#price").attr('required', false)
+            }
+        });
+    });
+</script>
+{% endblock %}
+$(this).text().toLowerCase().indexOf(value) > -1

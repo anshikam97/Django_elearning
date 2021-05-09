@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+<section id="center_course"></section>
+
+<section id="course_main">
+    <div class="container">
+            <div class="course_main_1 ">
+
+                {% for key, value in dict %}
+
+                <div class="card mb-3" style="max-width: 100%; height: 250px;">
+                    <div class="row no-gutters">
+                      <div class="col-md-4">
+                        <img src="{{ key.course_img.url }}" class="card-img" alt="..." width="100%" height="250px">
+                      </div>
+                      <div class="col-md-8">
+                            <div class="card-body">
+                            <h5 class="card-title" style="color: green;">{{ key.title }}</h5>
+                            <p class="card-text">{{ key.description }}</p>
+                            <p class="card-text"><small class="text-muted">Instructor: {{ value.first_name}} {{ value.last_name}}</small></p>
+                            <p><button class="btn btn-primary" style="margin-bottom: 0;">Add to cart</button> <span class="price"></span> </p>
+                            </div>
+                      </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+            
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+            </nav>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin/base.html' %}
+
+{% load staticfiles %}
+
+{% block branding %}
+    <h1 id="head">
+        E-LEARN <i class="fab fa-leanpub"></i>
+    </h1>
+{% endblock %}
+
+
+{% block extrastyle %}
+    <script src="https://kit.fontawesome.com/23886398e1.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+    <style>
+        #branding h1{
+            padding-top: 10px;
+            font-size: 25px;
+            font-weight: 500;
+            color: white;
+        }
+
+        #branding h1 i{
+            font-size: 20px;
+        }
+        #header {
+            background-color: lightseagreen;
+            height: 60px;
+        }
+
+        #user-tools a{
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        #user-tools a:hover{
+            color: yellow;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "studentdashboard.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+<section id="center_course"></section>
+<section id="mylearning">
+    <div class="container">
+        <div class="student_course">
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center; color: white;">
+                    <h3> {{cou.title}} </h3>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                        <button class="btn btn-primary" type="buton" onclick="goBack()"><i class="fas fa-chevron-left"></i>&nbsp; Back</button>
+                </div>
+            </div>
+
+
+            <div class="row card-deck">
+                        <div class="card" style="max-width: 100%; margin: 0%; align-items: center; background-color: transparent;">
+                            <video width="90%" height="80%" controls muted style="border: none; ">
+                                <source src="{{ lect.video.url }}" type="video/mp4">
+                            </video>
+        
+                            <div class="card-body" style="text-align: left; background-color: white; width: 100%; text-align: center;">
+                                <h5 class="card-title" style="color: green;">Lecture :{{ lect.title }}</h5>
+                                <p class="card-text" style="color: grey; font-weight: 200;">{{ lect.description }}
+                                </p>
+                            </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block 'usescript' %}
+<script>
+    function goBack(){
+        window.history.back();
+    }
+</script>
+{% endblock %}

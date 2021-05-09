@@ -1,0 +1,100 @@
+{% extends "teacherdashboard.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+<section id="center_course"></section>
+<section id="mycourse">
+    <div class="container">
+        <div class="add_new_course">
+            <div class="row">
+                <div class="col-sm-2">
+                    <button class="btn btn-warning" type="buton" onclick="goBack()"><i class="fas fa-chevron-left"></i>&nbsp; Back</button>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" type="buton" data-bs-target="#edit_lec" data-bs-toggle="modal" ><i class="fas fa-pencil-alt"></i>&nbsp; Edit</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="container con_sec" style="background-color: rgba(255, 255, 255, 0.9) !important;">
+                    <div class="col-sm-12">
+                        <div class="row"
+                            style="text-align: center; font-weight: 800; padding-bottom: 10px;">
+                            <div class="col-sm-12">
+                                <h2>{{ cou.title}} : <u>{{ lect.title }}</u></h2>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row card-deck">
+                            <div class="card" style="max-width: 100%; margin: 0%; align-items: center; background-color: transparent;">
+                                <video width="90%" height="80%" controls muted style="border: none; ">
+                                    <source src="{{ lect.video.url }}" type="video/mp4">
+                                </video>
+            
+                                <div class="card-body" style="text-align: left; background-color: white; width: 100%; text-align: center;">
+                                    <h5 class="card-title" style="color: green;">{{ lect.title }}</h5>
+                                    <p class="card-text" style="color: grey; font-weight: 200;">{{ lect.description }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block 'modall' %}
+<div class="modal fade" id="edit_lec" tabindex="-1" aria-labelledby="edit_lecL" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit_lecL">Edit Lecture Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form method="POST" action="/instructor/edit_lecture/" >
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="contianer">
+                                    <div class="form-row">
+                                        <input type="text" name="title" class="form-control" value="{{ lect.title }}"
+                                            required>
+                                    </div></br>
+                                    <div class="form-row">
+                                        <input type="text" name="descp" class="form-control" value="{{ lect.description }}"
+                                            required>
+                                    </div></br>
+                                    <input type="hidden" name="lecid" value="{{ lect.id }}">
+                                    <input type="hidden" name="cid" value="{{ cou.id }}">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="new_practice" type="submit">
+                    Edit Lecture
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block 'usescript' %}
+<script>
+    function goBack(){
+        window.history.back();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "admin/login.html" %}
+
+{% load staticfiles %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    .login #branding h1{
+        font-size: 25px;
+        font-weight: 500;
+        color: white;
+    }
+
+    .login #branding h1 i{
+        font-size: 20px;
+    }
+
+    .login #header{
+        height: 60px;
+    }
+
+    #header {
+        background-color: lightseagreen;
+    }
+
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background-color: lightseagreen;
+        width : 100px;
+    }
+
+    button, input, optgroup, select, textarea {
+        font-family: 'Ubuntu Condensed', sans-serif;
+    }
+</style>
+{% endblock %}
+
+{% block branding %}
+    <h1 id="head">
+        E-LEARN <i class="fab fa-leanpub"></i>
+    </h1>
+{% endblock %}
+
+
+

@@ -1,0 +1,79 @@
+{% extends "studentdashboard.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+<section id="center_course"></section>
+<section id="course_stu">
+    <div class="container">
+        <div class="course_stu">
+
+            <div class="row no-gutters">
+
+                <div class="col-sm-3 course_stu_1">
+                    <div class="container">
+                        <div class="row">
+                            <div class="input-group" style="padding:0;">
+                                <input type="search" class="form-control" placeholder="Search" aria-describedby="button-addon2"
+                                    id="csearch" name="csearch">
+                                <button class="btn btn-primary" type="submit" id="button-addon2" disabled><i
+                                        class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <form method="POST" action="/student/filter/" style="width:100%">
+                                {% csrf_token %}
+                            <select class="form-select" name="filter" onchange="this.form.submit()"> 
+                                <option selected>Level</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Expert">Expert</option>
+                                <option value="All">All</option>
+                            </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-8 course_stu_2">
+                    <div class="row card-deck">
+                        {% for key, value in dict %}
+                        {% if key.status == 'A' %}
+                        <div class="card mb-3" style="max-width: 100%;">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <img src="{{ key.course_img.url }}" class="card-img" alt="..." width="100%">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="color: green;">{{ key.title }}</h5>
+                                        <p class="card-text">{{ key.description }}</p>
+                                        <p class="card-text" style="font-size: small;">Level : {{ key.level }}</p>
+                                        <p class="card-text"><small class="text-muted">Instructor: {{ value.first_name}}
+                                                {{ value.last_name}}</small></p>
+                                        <p class="card-text" style="color: #c2ae2a;">Price : {{ key.price }}</p>
+                                        <p>
+                                            <button class="btn btn-primary" style="margin-bottom: 0;">
+                                                {% if key.id in optlistid %}
+                                                <a style="text-decoration: none; font-weight: 200;" disabled>Opted</a>
+                                                {% elif key.id not in cartlist %}
+                                                <a a href="{% url 'student:cart' id=key.id %}" style="text-decoration: none; font-weight: 200;">Add to cart</a>
+                                                {% else %}
+                                                <a style="text-decoration: none; font-weight: 200;" disabled>Already Added</a>
+                                                {% endif %}
+                                            </button>
+                                             <span class="price"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "studentdashboard.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+<section id="center_course"></section>
+<section id="mylearning">
+    <div class="container">
+        <div class="student_course">
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center; color: white;">
+                    <h2>PAYMENT HISTORY</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-success table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Course</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Payment Method</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for key,value in or_dict %}
+                      <tr>
+                        <th scope="row">{{ key.order_id }}</th>
+                        <td>{{ key.order_date }}</td>
+                        <td>
+                            <table class="table table-primary table-striped table-hover">
+                                {% for j in value%}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'student:viewcourse' id=j.id %}" style="text-decoration: none; font-weight: 100; color: black;">{{ j.title }}</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        <td>
+                            <table class="table table-primary table-striped">
+                                {% for j in value%}
+                                <tr>
+                                    <td>{{ j.price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                        <td>{{ key.total_amt }}</td>
+                        <td>{{ key.paid_by }}</td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

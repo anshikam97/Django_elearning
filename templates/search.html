@@ -1,0 +1,15 @@
+{% extends "teacherdashboard.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+<section id="center_course"></section>
+<section id="search">
+    <ul>
+        {% for i in final %}
+        <li>{{ i }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% endblock %}

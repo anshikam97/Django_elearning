@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>LMS</title>
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/style.css' %}" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/23886398e1.js" crossorigin="anonymous"></script>
+	<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/all.css' %}" /> -->
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+
+<body>
+
+	{% block 'navbar' %}
+	<section id="header">
+		<nav class="navbar navbar-expand-lg fixed-top effect-3">
+			<a class="navbar-brand" href="/home/">E-LEARN <i class="fab fa-leanpub"></i></a>
+
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+				aria-="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"><i class="fas fa-bars" style="color:#fff; font-size:28px;"></i></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+					<li class="nav-item"><a class="nav-link" href="/home/">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#about_main">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="/courses/">Courses </a></li>
+					<li class="nav-item"><a class="nav-link" href="#exampleModal2" data-bs-toggle="modal">Sign In</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">Register</a>
+						<ul class="dropdown-menu .drop_1" aria-labelledby="navbarDarkDropdownMenuLink">
+							<li><a class="dropdown-item" href="#exampleModal" data-bs-toggle="modal">As Student</a></li>
+							<li><a class="dropdown-item" href="#exampleModal1" data-bs-toggle="modal">As Teacher</a>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+					<!-- <li class="nav-item dropdown" onclick="javascript:return false;">
+						<a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDarkDropdownMenuLink"
+							data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-search"></i></a>
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+							<li>
+								<form method="POST">
+									<div class="input-group">
+										<input type="search" id="form1" class="form-control-dropdown" />
+										<div class="input-group-append">
+											<button type="submit" class="btn btn-primary">
+												<i class="fas fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</li>
+						</ul>
+					</li> -->
+				</ul>
+			</div>
+		</nav>
+	</section>
+	{% endblock %}
+
+	{% block 'modall' %}
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1"  aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" >Sigup As Student</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form method="POST" action="/signup/">
+						{% csrf_token %}
+						<div class="form-row">
+							<input type="text" name="usrname" class="form-control" placeholder="username" required>
+						</div></br>
+						<div class="row">
+							<div class="col">
+								<input type="text" name="fname" class="form-control" placeholder="First name" required>
+							</div>
+							<div class="col">
+								<input type="text" name="lname" class="form-control" placeholder="Last name" required>
+							</div>
+						</div></br>
+						<div class="form-row">
+							<input type="email" name="uemail" class="form-control" placeholder="Email Address" required>
+						</div></br>
+						<div class="form-row">
+							<input type="hidden" name="urole" class="form-control" value="Student">
+						</div>
+						<div class="form-row">
+							<input type="number" name="umobile" class="form-control" id="mob"
+								placeholder="Mobile Number" pattern="^\d{10}$" required>
+						</div></br>
+						<div class="form-row">
+							<div class="input-group">
+								<input type="password" name="upassword" class="form-control" id="pass"
+									placeholder="Password" required>
+								<button class="input-group-text" type="button" onclick="see()"><i
+										class="fa fa-eye-slash" id="eye"></i></button>
+							</div>
+						</div></br>
+						<div class="form-row">
+							<div class="col">
+								<input type="checkbox" class="form-check-input" id="tc" required>
+								<label class="form-check-label">Terms and conditions </label>
+							</div>
+						</div></br>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary" onclick="valida()">Sign Up</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="exampleModal1" tabindex="-1"  aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" >Sigup As Teacher</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form method="POST" action="/signup/">
+						{% csrf_token %}
+						<div class="form-row">
+							<input type="text" name="usrname" class="form-control" placeholder="username" required>
+						</div></br>
+						<div class="row">
+							<div class="col">
+								<input type="text" name="fname" class="form-control" placeholder="First name" required>
+							</div>
+							<div class="col">
+								<input type="text" name="lname" class="form-control" placeholder="Last name" required>
+							</div>
+						</div></br>
+						<div class="form-row">
+							<input type="email" name="uemail" class="form-control" placeholder="Email Address" required>
+						</div></br>
+						<div class="form-row">
+							<input type="hidden" name="urole" class="form-control" value="Teacher">
+						</div>
+						<div class="form-row">
+							<input type="tel" name="umobile" class="form-control" id="mob1" placeholder="Mobile Number"
+								pattern="^\d{10}$" required>
+						</div></br>
+						<div class="form-row">
+							<div class="input-group">
+								<input type="password" name="upassword" class="form-control" id="pass2"
+									placeholder="Password" required>
+								<button class="input-group-text" type="button" onclick="see2()"><i
+										class="fa fa-eye-slash" id="eye2"></i></button>
+							</div>
+						</div></br>
+						<div class="form-row">
+							<div class="col">
+								<input type="checkbox" class="form-check-input" id="tc1" required>
+								<label class="form-check-label">Terms and conditions </label>
+							</div>
+						</div></br>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary" onclick="valida1()">Sign Up</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="exampleModal2" tabindex="-1"  aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title ">LOGIN</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form method="POST" action="/login/">
+						{% csrf_token %}
+						<div class="container">
+							<div class="row" style="justify-content: center;">
+								<div class="col-sm-9">
+									<div class="form-row">
+										<input type="text" name="usrname" class="form-control" placeholder="username" required>
+									</div></br>
+									<div class="form-row">
+										<div class="input-group">
+											<input type="password" name="upassword" class="form-control" id="pass3"
+												placeholder="Password" required>
+											<button class="input-group-text" type="button" onclick="see1()"><i
+													class="fa fa-eye-slash" id="eye3"></i></button>
+										</div>
+									</div></br>
+								</div>
+							</div>
+						</div>	
+				</div>
+				<div class="modal-footer">
+					<div class="container">
+						<div class="row ">
+							<div class="col-sm-12"><button type="submit" name="signin">Sign In</button></div>
+						</div>
+					</div>
+					
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% endblock %}
+
+
+	{% block 'homedata' %}
+	<section id="center">
+		<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="{% static 'img/1.jpg' %}" class="d-block w-100" alt="...">
+				</div>
+				<div class="carousel-item">
+					<img src="{% static 'img/2.jpg' %}" class="d-block w-100" alt="...">
+				</div>
+				<div class="carousel-item">
+					<img src="{% static 'img/3.jpg' %}" class="d-block w-100" alt="...">
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</section>
+
+	<section id="courses">
+
+		<div class="container">
+			<div class="row">
+				<div class="courses">
+					<h3>COURSES WE OFFER</h3>
+					<p>Learning keeps you in the lead. Get in-demand skills to impress anyone.</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="carouselExampleNoTouching" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Add to cart</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Go somewhere</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Go somewhere</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Add to cart</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Go somewhere</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Go somewhere</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Add to cart</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Go somewhere</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4 col-lg-4">
+								<div class="card">
+									<img src="{% static 'img/4.jpg' %}" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title">Card title</h5>
+										<p class="card-text">Some quick example text to build on the card title and make
+											up
+											the bulk of the card's content.</p>
+										<a href="#" class="btn btn-primary">Go somewhere</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleNoTouching"
+				data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleNoTouching"
+				data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</section>
+	{% endblock %}
+
+	{% block 'acc' %}
+	<section id="started">
+		<div class="container">
+			<div class="row">
+				<div class=" col-md-12 col-lg-12 col-sm-12">
+					<div class="courses">
+						<h3>Become A Instructor</h3>
+						<p>Create an online video course and earn money by teaching people around the world</p>
+					</div>
+					<div class="started ">
+						<h5><a href="/teachersignup/">Get Started</a></h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}
+
+
+	{% block 'learning'%}
+	<section id="learning">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-lg-6 learning">
+					<figure class="figure">
+						<img src="{% static 'img/13.jpg' %}" class="figure-img img-fluid rounded" alt="image">
+						<figcaption class="figure-caption">
+							<!-- <h2>elementum <span> imperdiet</span></h2> -->
+							<!-- <p>Sed cursus ante dapibus diam.</p> -->
+							<!-- <a href="#">View more</a> -->
+						</figcaption>
+					</figure>
+				</div>
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="container learning_right">
+						<div class="row learning_right_inner">
+							<h4><i class="fa fa-user"></i> Online Education </h4>
+							<p>By connecting students all over the world to the best instructors, helping individuals
+								reach
+								their goals and pursue their dreams.
+							</p>
+						</div>
+						<div class="row learning_right_inner">
+							<h4><i class="fa fa-trophy"></i>Connected People</h4>
+							<p>The leading global marketplace for teaching and learning, connecting millions of students
+								to
+								the skills they need to succeed.</p>
+						</div>
+						<div class="row learning_right_inner">
+							<h4><i class="fa fa-bookmark"></i>Explore Your Quality</h4>
+							<p>Helps organizations of all kinds prepare for the ever-evolving future of work</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}
+
+
+	{% block 'about'%}
+	<section id="about_main" style="padding-top: 100px !important;">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-7">
+					<div class="about_main_1">
+						<h2>IMPROVING LIVES THROUGH LEARNING</h2>
+						<hr class="hr_1">
+					</div>
+				</div>
+
+				<div class="row">
+					<div class=" col-sm-12 ">
+						<div class="about_main_3">
+							<p>The leading global marketplace for learning and instruction
+								By connecting students all over the world to the best instructors, helping
+								individuals reach their goals and pursue their dreams.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+
+	{% endblock %}
+
+	{% block 'contactus' %}
+	<section id="contact">
+		<div class="container">
+			<div class="contact">
+				<div class="row">
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<form method="POST" action="/contactus/">
+							{% csrf_token %}
+							<div class="row ">
+								<div class="form-group col-xs-12">
+									<label>Name:</label>
+									<input type="text" class="form-control" name="name" placeholder="Name" id="name"
+										data-validation-required-message="Please enter your name." required>
+									<p class="help-block text-danger"></p>
+								</div>
+							</div>
+							<div class="row ">
+								<div class="form-group col-xs-12">
+									<label>Email Address:</label>
+									<input type="email" class="form-control" name="email" placeholder="Email Address" id="email" data-validation-required-message="Please enter your email address." required>
+									<p class="help-block text-danger"></p>
+								</div>
+							</div>
+							<div class="row ">
+								<div class="form-group col-xs-12">
+									<label>Phone Number:</label>
+									<input type="tel" class="form-control" name="mobile" placeholder="Phone Number" id="phone" pattern="^\d{10}$" data-validation-required-message="Please enter your phone number." required>
+									<p class="help-block text-danger"></p>
+								</div>
+							</div>
+							<div class="row ">
+								<div class="form-group col-xs-12">
+									<label>Message:</label>
+									<textarea rows="5" class="form-control" name="message" placeholder="Message" id="message"
+										data-validation-required-message="Please enter a message." required></textarea>
+									<p class="help-block text-danger"></p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-xs-12">
+									<button type="submit" class="btn btn-warning btn-lg">Send</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-sm-6 col-md-6 col-lg-6">
+						<div class="contact_1">
+							<a href="#"><img src="{% static 'img/66.jpg' %}"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}
+
+	{% block 'footer' %}
+	<section id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="footer_bottom ">
+					<p> © 2021 Your Website Name. All Rights Reserved | Design by Anshika Mishra</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="footer_bottom_1 ">
+					<ul class="social-network social-circle">
+						<li><a href="#" class="icoRss" title="Rss"><i class="fa fa-rss"></i></a></li>
+						<li><a href="#" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a>
+						</li>
+						<li><a href="#" class="icoTwitter" title="Twitter"><i class="fa fa-twitter"></i></a>
+						</li>
+						<li><a href="#" class="icoGoogle" title="Google +"><i class="fa fa-google-plus"></i></a>
+						</li>
+						<li><a href="#" class="icoLinkedin" title="Linkedin"><i class="fa fa-linkedin"></i></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	{% endblock %}
+
+	<script src="{% static 'js/classie.js' %}"></script>
+	<script src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+	<script src="{% static 'js/index.js' %}" type="text/javascript"></script>
+	<script>
+		function valida() {
+			var mobil = document.getElementById("mob");
+			var patter = /^\d{10}$/;
+			if (mobil.value.match(patter)) {
+				return true
+			}
+			else {
+				alert("enter 10 digit mobile number");
+				return false
+			}
+		}
+
+		function valida1() {
+			var mobil = document.getElementById("mob1");
+			var patter = /^\d{10}$/;
+			if (mobil.value.match(patter)) {
+				return true
+			}
+			else {
+				alert("enter 10 digit mobile number");
+				return false
+			}
+		}
+
+		function see() {
+			var pw = document.getElementById("pass");
+			if (pw.type === "password") {
+				pw.type = "text";
+				document.getElementById("eye").className = "fas fa-eye"
+			}
+			else {
+				pw.type = "password";
+				document.getElementById("eye").className = "fas fa-eye-slash"
+			}
+		}
+
+		function see1() {
+			var pw = document.getElementById("pass3");
+			if (pw.type === "password") {
+				pw.type = "text";
+				document.getElementById("eye3").className = "fas fa-eye"
+			}
+			else {
+				pw.type = "password";
+				document.getElementById("eye3").className = "fas fa-eye-slash"
+			}
+		}
+
+		function see2() {
+			var pw = document.getElementById("pass2");
+			if (pw.type === "password") {
+				pw.type = "text";
+				document.getElementById("eye2").className = "fas fa-eye"
+			}
+			else {
+				pw.type = "password";
+				document.getElementById("eye2").className = "fas fa-eye-slash"
+			}
+		}
+
+	</script>
+	{% block 'usescript' %}
+
+	{% endblock %}
+</body>
+
+</html>

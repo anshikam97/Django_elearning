@@ -1,0 +1,65 @@
+{% extends "studentdashboard.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+<section id="center_course"></section>
+<section id="mylearning">
+    <div class="container">
+        <div class="student_course">
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center; color: white;">
+                    <h2> {{cou.title}} </h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <input type="search" class="form-control" placeholder="Search" aria-describedby="button-addon2"
+                            id="csearch" name="csearch">
+                        <button class="btn btn-primary" type="submit" id="button-addon2" disabled><i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                        <button class="btn btn-primary" type="buton" onclick="goBack()"><i class="fas fa-chevron-left"></i>&nbsp; Back</button>
+                </div>
+            </div>
+
+
+            <div class="row card-deck">
+                {% for i in lect %}
+                <button class="btn"><a href="{% url 'student:viewlecture' cid=cou.id id=i.id %}" id="disp">
+                        <div class="card" style="max-width: 100%; margin: 0%;" id="cardsearch">
+                            <div class="row no-gutters">
+                                <div class="col-md-4" style="margin: 0;">
+                                    <video width="100%">
+                                        <source src="{{ i.video.url }}" type="video/mp4" alt="...">
+                                    </video>
+                                </div>
+                                <div class="col-md-8" style=" background-color: rgba(128, 128, 128, 0.1);">
+                                    <div class="card-body" style="text-align: left;">
+                                        <h5 class="card-title" style="color: green;">Lecture : {{ i.title }}</h5>
+                                        <p class="card-text" style="color: grey; font-weight: 200;">{{ i.description }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a></button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+{% block 'usescript' %}
+<script>
+    function goBack(){
+        window.history.back();
+    }
+</script>
+{% endblock %}

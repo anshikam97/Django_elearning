@@ -1,0 +1,206 @@
+{% extends "teacherdashboard.html" %}
+
+{% load staticfiles %}
+
+{% block 'homedata' %}
+{% if messages %}
+		{% for m in messages %}
+		<script type="text/javascript"> alert("{{ m }}")</script>
+		{% endfor %}
+{% endif %}
+<section id="center_course"></section>
+<section id="mycourse">
+    <div class="container">
+        <div class="add_new_course">
+            <div class="row">
+                <div class="container con_sec">
+                    <div class="col-sm-12">
+                        <div class="row"
+                            style="text-align: center; color: white; font-weight: 800; padding-bottom: 10px;">
+                            <div class="col-sm-12">
+                                <h2>{{ cou.title }}</h2>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="search" class="form-control" placeholder="Search"
+                                        aria-describedby="button-addon2" id="csearch">
+                                    <button class="btn btn-primary" type="submit" id="button-addon2" disabled><i
+                                            class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" type="buton" onclick="goBack()"><i class="fas fa-chevron-left"></i>&nbsp; Back</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-success" type="buton" data-bs-target="#edit_cou" data-bs-toggle="modal"><i class="fas fa-pencil-alt"></i>&nbsp; Edit Course</button>
+                            </div>
+                            <div class="col-sm-5">
+                                <button class="btn btn-success val" data-bs-toggle="modal" data-bs-target="#add_lec"
+                                    value="{{ i.id }}"><i class="fas fa-plus"></i>&nbsp; Add Lecture
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px 0 20px 20px">
+                            <!-- <p><span style="font-weight:700; font-size:medium;">Section :</span> &nbsp; {{i.title}} -->
+                            <!-- </p> -->
+                        </div>
+
+                        <div class="row card-deck" style="margin: 30px;">
+                            {% for j in lect %}
+                            <div class="col-sm-11" style="background-color: transparent; border: none;">
+                                <button class="btn " style="width: 100%; margin-bottom: 30px;"><a href="{% url 'instructor:manage_lecture' cid=cou.id id=j.id %}" id="disp">
+                                    <div class="card " style="max-width: 100%; margin: 0%;" id="cardsearch">
+                                        <div class="row no-gutters ">
+                                            <div class="col-md-4 " style="margin: 0; background-color: black;">
+                                                <video width="170px">
+                                                    <source src="{{ j.video.url }}" type="video/mp4" alt="...">
+                                                </video>
+                                            </div>
+                                            <div class="col-md-8" style=" background-color: rgba(128, 128, 128, 0.1);">
+                                                <div class="card-body" style="text-align: left;">
+                                                    <h5 class="card-title" style="color: green;"> Lecture: {{ j.title }}</h5>
+                                                    <p class="card-text" style="color: grey; font-weight: 200;">{{ j.description }}</p>
+                                                    <p class="card-text" style="font-weight: 100; margin-bottom: 0;">
+                                                        <small class="text-muted">{{ j.dated }}</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a></button>
+                            </div>
+                            <div class="col-sm-1 " style="margin-bottom: 30px; margin-right: 0;">
+                                    <form method="POST" action="/instructor/lec_del/" style="width: 80%; height: 100%;" id="del">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ j.id }}" name="lecid">
+                                        <input type="hidden" value="{{ cou.id }}" name="couid">
+                                        <button class="btn btn-danger" type="submit" style=" width: 100%; height: 100%;"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                            </div>
+                            
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block 'modall' %}
+<div class="modal fade" id="add_lec" tabindex="-1" aria-labelledby="add_lecL" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add_lecL">Select your course Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form method="POST" action="/instructor/add_lecture/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="contianer">
+                                    <div class="form-row">
+                                        <input type="text" name="title" class="form-control" placeholder="title"
+                                            required>
+                                    </div></br>
+                                    <div class="form-row">
+                                        <input type="text" name="descp" class="form-control" placeholder="Description"
+                                            required>
+                                    </div></br>
+                                    <div class="form-row">
+                                        <input type="file" name="vid" class="form-control" accept="video/mp4" required>
+                                    </div></br>
+                                    <input type="hidden" name="cid" value="{{ cou.id }}">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="new_practice" type="submit">
+                    Add Lecture
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit_cou" tabindex="-1" aria-labelledby="edit_cou" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit_cou">Edit your Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form method="POST" action="/instructor/edit_course/" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="contianer">
+                                    <div class="form-row">
+                                        <textarea role="6" name="descp" class="form-control"
+                                            required>{{ cou.description }}</textarea>
+                                    </div></br>
+                                    <div class="form-row">
+                                        <input type="file" name="c_img" class="form-control" accept="image/jpg, image/png, image/jpeg" required>
+                                    </div></br>
+                                    <input type="hidden" name="cid" value="{{ cou.id }}">
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="new_practice" type="submit">
+                    Edit Course
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block 'usescript' %}
+<script>
+    $(document).ready(function () {
+
+        jQuery.expr[':'].contains = function (a, i, m) {
+            return jQuery(a).text().toUpperCase()
+                .indexOf(m[3].toUpperCase()) >= 0;
+        };
+        $('#csearch').keyup(function () {
+            $('.card').removeClass('d-none');
+            var filter = $(this).val(); // get the value of the input, which we filter on
+            $('.card-deck').find('.card .card-body h5:not(:contains("' + filter + '"))').parent().parent().parent().parent().addClass('d-none');
+        });
+
+        $("#del").submit(function(){
+            var c = confirm("Are you Sure?");
+            if(c == false){
+                event.preventDefault();
+            }
+        });
+    });
+
+    function goBack(){
+        window.history.back();
+    }
+</script>
+{% endblock %}
