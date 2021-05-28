@@ -10,7 +10,7 @@ from django.db.utils import IntegrityError
 from rest_framework.generics import ListAPIView
 from .serializers import *
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def tech_dashboard(request):
     try:
         cat = Category.objects.all()
@@ -46,21 +46,21 @@ def tech_dashboard(request):
 
     return render(request, "teacherdashboard.html", {'cou':cou, 'subc':subc, 'cat':cat})   
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def manage_course(request,id):
     cou = Courses.objects.get(id = id)
     lect = Lecture.objects.filter(course_id = cou.id)
 
     return render(request, "add_course.html", {'cou':cou,  'lect':lect})
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def manage_lecture(request,cid,id):
     cou = Courses.objects.get(id = cid)
     lect = Lecture.objects.get(id = id)
 
     return render(request, "show_lecture.html", {'cou':cou,'lect':lect})
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def add_lecture(request):
     a = request.POST.get('title')
     b = request.FILES.get('vid')
@@ -79,7 +79,7 @@ def add_lecture(request):
 
     return redirect('instructor:manage_course', id=i.id)
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def lec_del(request):
     a = request.POST.get('lecid')
     b = request.POST.get('couid')
@@ -95,7 +95,7 @@ def lec_del(request):
 
     return redirect('instructor:manage_course', id=cou.id)
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def up_profile(request):
     upObj = UserProfile.objects.filter(user__username=request.user)
     uObj = User.objects.filter(username = request.user)
@@ -113,7 +113,7 @@ def up_profile(request):
         return redirect('/instructor/profile/')
     return render(request, "acc_update.html", {'upObj' : upObj, 'uObj' : uObj,})
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def edit_lecture(request):
     a = request.POST.get('title')
     b = request.POST.get('descp')

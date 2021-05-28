@@ -29,13 +29,13 @@ def login_call(request):
         elif uObj.role == "Teacher":
             return redirect('/instructor/dashboard/')
         else:
-            return redirect('/home/')
+            return redirect('/')
     else:
-        return redirect('/home/')
+        return redirect('/')
 
 def logout_call(request):
     logout(request)
-    return redirect('/home/')
+    return redirect('')
 
 def signup(request):
     a = request.POST.get('fname')

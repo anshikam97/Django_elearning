@@ -9,7 +9,7 @@ import random
 import datetime
 
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def stu_dashboard(request):
     uObj = UserProfile.objects.get(user__username=request.user)
     cartObj = Cart.objects.filter(user_id=uObj.id)
@@ -31,7 +31,7 @@ def stu_dashboard(request):
 
     return  render(request, "studentdashboard.html", {'items':items, 'total':total, 'cartlist':cartlist,'optlist':optlist}) 
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def stu_courses(request):
 
     cou = Courses.objects.all()
@@ -73,7 +73,7 @@ def add_cart(request, id):
         return redirect('/student/courses/')
     # except:
     #     messages.error(request, "Aleady in your cart")
-    #     return redirect('/buyer/home/')
+    #     return redirect('/buyer/')
 
 def del_cart(request, id):
 	uObj = UserProfile.objects.get(user__username=request.user)
@@ -118,7 +118,7 @@ def Or(price, c_id, uObj):
         Op = Opted(added_by=uObj, category_id=Courses_obj.category_id, subcategory_id=Courses_obj.subcategory_id, course_id=Courses_obj.id, order=O)
         Op.save()
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def up_profile(request):
     upObj = UserProfile.objects.get(user__username=request.user)
     uObj = User.objects.get(username = request.user)
@@ -149,7 +149,7 @@ def up_profile(request):
         return redirect('/student/profile/')
     return render(request, "stu_profile.html", {'upObj' : upObj, 'uObj' : uObj, 'items':items, 'total':total, 'cartlist':cartlist,})
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def view_course(request, id):
     cou = Courses.objects.get(id = id)
     lect = Lecture.objects.filter(course_id = cou.id)
@@ -169,7 +169,7 @@ def view_course(request, id):
 
     return render(request, "view_course.html", {'cou':cou, 'lect':lect, 'items':items, 'total':total, 'cartlist':cartlist,})
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def view_lecture(request, cid, id):
     cou = Courses.objects.get(id = cid)
     lect = Lecture.objects.get(id = id)
@@ -189,7 +189,7 @@ def view_lecture(request, cid, id):
 
     return render(request, "view_lecture.html", {'cou':cou, 'lect':lect, 'items':items, 'total':total, 'cartlist':cartlist,})
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def payment_history(request):
     
     upObj = UserProfile.objects.get(user__username=request.user)
@@ -218,7 +218,7 @@ def payment_history(request):
 
     return render(request, "stu_paymenthistory.html", {'items':items, 'total':total, 'cartlist':cartlist, 'or_dict': or_dict.items()})
 
-@login_required(login_url = '/home/')
+@login_required(login_url = '/')
 def filter(request):
     a = request.POST.get('filter')
 
