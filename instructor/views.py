@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 
 from django.db.utils import IntegrityError
 
+from rest_framework.generics import ListAPIView
+from .serializers import *
+
 @login_required(login_url = '/home/')
 def tech_dashboard(request):
     try:
@@ -14,6 +17,7 @@ def tech_dashboard(request):
         subc = SubCategory.objects.all()
         uObj = UserProfile.objects.get(user__username=request.user)
         cou = Courses.objects.filter(added_by_id = uObj.id)
+        print(cou)
 
         if request.method == "POST":
             a = request.POST['title']
@@ -126,8 +130,8 @@ def edit_lecture(request):
     
     return redirect('instructor:manage_lecture', cid=d, id=c)
 
-
 def edit_course(request):
+
     try:
         b = request.POST.get('descp')
         c = request.FILES['c_img']
@@ -148,3 +152,7 @@ def edit_course(request):
     except IntegrityError:
             messages.error(request,'Title is not unique')
             return redirect('instructor:manage_course', id=d)  
+
+class CourseLecture(ListAPIView):
+    queryset = Lecture.objects.all()
+    serializer_class = LectureSerializer

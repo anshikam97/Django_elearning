@@ -11,7 +11,7 @@ urlpatterns = [
     path('signup/', views.signup),
     path('contactus/', views.contactus),
     path('student/', include('student.urls')),
-    path('instuctor/', include('instructor.urls'))
+    path('instructor/', include('instructor.urls'))
 ]
 
 if settings.DEBUG:

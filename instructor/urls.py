@@ -11,5 +11,6 @@ urlpatterns = [
     path('add_lecture/', views.add_lecture),
     path('edit_lecture/', views.edit_lecture),
     path('edit_course/', views.edit_course),
-    path('profile/', views.up_profile)
+    path('profile/', views.up_profile),
+    path('api/', views.CourseLecture.as_view())
 ]

@@ -12,11 +12,14 @@ def home(request):
     return render(request, "index.html")
 
 def login_call(request):
-    h = request.POST.get('username')
-    i = request.POST.get('pwd')
+    h = request.POST.get('usrname')
+    i = request.POST.get('upassword')
+
+    print(h)
+    print(i)
 
     user = authenticate(username=h, password=i)
-
+    print(user)
     if user:
         login(request, user)
         uObj = UserProfile.objects.get(user__username=request.user)
